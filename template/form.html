@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Laptop Price Predictor</title>
+    <link rel="icon" href="tl.ico" type="image/x-icon">
+    <style>
+
+      *{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: 'montserrat regular';
+    }
+    
+    body, html{
+        width: 100%;
+        height: 100%;
+        background-color: bisque;
+    }
+    
+    h1{
+        font-size: 5vh;
+        margin-top: 2vh;
+        margin-bottom: 5vh;
+        margin-left: 5vh;
+    }
+    
+    form{
+        /* background-color: red; */
+        font-size: 5vh;
+        /* padding: 0 4vw;
+         */
+         margin-bottom: 100vh;
+         position: relative;
+    }
+    
+    form label{
+        position: absolute;
+        left: 25%;
+        /* margin-bottom: 100px; */
+    }
+    
+    form select{
+        background-color: bisque;
+        width: 20vw;
+        height: 5vh;
+        position: absolute;
+        left: 53%;
+        text-align: center;
+        /* margin-bottom: 15px; */
+        border: 1px solid rgb(51, 37, 20);
+        color: rgb(51, 37, 20);
+        border-radius: 5px;
+    }
+    
+    form select option{
+        background-color: bisque;
+        width: 20vw;
+        height: 5vh;
+        position: absolute;
+        left: 53%;
+        text-align: center;
+        /* margin-bottom: 15px; */
+        border: 1px solid rgb(51, 37, 20);
+        color: rgb(51, 37, 20);
+        border-radius: 5px;
+    }
+    
+    form input{
+        background-color: bisque;
+        width: 20vw;
+        height: 5vh;
+        position: absolute;
+        left: 53%;
+        text-align: center;
+        border: 1px solid rgb(51, 37, 20);
+        color: rgb(51, 37, 20);
+        border-radius: 5px;
+    }
+    
+    button{
+        font-size: 3vw;
+        background-color: bisque;
+        border: 2px solid rgb(51, 37, 20);
+        border-radius: 5px;
+        color: rgb(51, 37, 20);
+        padding: 5px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-top: 5vh;
+    }
+    
+    button:hover{
+        background-color: rgb(51, 37, 20);
+        color: bisque;
+    }
+    
+    @media (max-width:600px) {
+        h1{
+            font-size: 3.8vh;
+            margin-left: 4vw;
+            margin-bottom: 20vh;
+        }
+    
+        form{
+            /* background-color: red; */
+            font-size: 3vh;
+            height: 70vh;
+            /* padding: 50px; */
+        }
+    
+        form label{
+            position: absolute;
+            left: 5%;
+            font-size: 2.5vh;
+        }
+    
+        form select{
+            width: 15vh;
+            height: 3.3vh;
+            position: absolute;
+            left: 66%;
+            /* margin-bottom: 15px; */
+            border: 1px solid rgb(51, 37, 20);
+            color: rgb(51, 37, 20);
+            border-radius: 5px;
+        }
+        
+        form input{
+            background-color: bisque;
+            width: 15vh;
+            height: 3.3vh;
+            position: absolute;
+            left: 66%;
+            border: 1px solid rgb(51, 37, 20);
+            color: rgb(51, 37, 20);
+            border-radius: 5px;
+        }
+    
+        button{
+            font-size: 3vh;
+            top: 23rem;
+        }
+    }
+    </style>
+  </head>
+  
+  <body>
+    <header>
+      <h1 font-size="50px">Laptop Price Predictor</h1>
+    </header>
+    <div class="container">
+      <form id="priceForm" method="POST" action="/predict_price/">
+        {% csrf_token %}
+        <label for="company">Brand:</label>
+        <select background="black" id="company" name="company">
+          {% for option in options_company %}
+          <option value="{{ option }}">{{ option }}</option>
+          {% endfor %}
+        </select>
+        <br />
+        <label for="category">Category:</label>
+        <select id="category" name="category">
+          {% for option in options_type %}
+          <option value="{{ option }}">{{ option }}</option>
+          {% endfor %}
+        </select>
+        <br />
+        <label for="ram">RAM(in GB):</label>
+        <select id="ram" name="ram">
+          <option value="2">2</option>
+          <option value="4">4</option>
+          <option value="6">6</option>
+          <option value="8">8</option>
+          <option value="12">12</option>
+          <option value="16">16</option>
+          <option value="24">24</option>
+          <option value="32">32</option>
+          <option value="64">64</option>
+        </select>
+        <br />
+        <label for="weight">Weight of the Laptop:</label>
+        <input
+          type="number"
+          id="weight"
+          name="weight"
+          step="any"
+          onfocus="moveCursor()"
+        />
+        <br />
+        <label for="touchscreen">Touchscreen:</label>
+        <select id="touchscreen" name="touchscreen">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+        </select>
+        <br />
+        <label for="ips">IPS:</label>
+        <select id="ips" name="ips">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+        </select>
+        <br />
+        <label for="screen_size">Screen Size:</label>
+        <input
+          type="number"
+          id="screen_size"
+          name="screen_size"
+          step="any"
+          onfocus="moveCursor()"
+        />
+        <br />
+        <label for="resolution">Screen Resolution:</label>
+        <select id="resolution" name="resolution">
+          <option value="1920x1080">1920x1080</option>
+          <option value="1366x768">1366x768</option>
+          <option value="1600x900">1600x900</option>
+          <option value="3840x2160">3840x2160</option>
+          <option value="3200x1800">3200x1800</option>
+          <option value="2880x1800">2880x1800</option>
+          <option value="2560x1600">2560x1600</option>
+          <option value="2560x1440">2560x1440</option>
+          <option value="2304x1440">2304x1440</option>
+        </select>
+        <br />
+        <label for="cpu">CPU:</label>
+        <select id="cpu" name="cpu">
+          {% for option in options_cpu %}
+          <option value="{{ option }}">{{ option }}</option>
+          {% endfor %}
+        </select>
+        <br />
+        <label for="gpu">GPU:</label>
+        <select id="gpu" name="gpu">
+          {% for option in options_gpu %}
+          <option value="{{ option }}">{{ option }}</option>
+          {% endfor %}
+        </select>
+        <br />
+        <label for="os">OS:</label>
+        <select id="os" name="os">
+          {% for option in options_os %}
+          <option value="{{ option }}">{{ option }}</option>
+          {% endfor %}
+        </select>
+        <br />
+        <button type="submit">Predict Price</button>
+      </form>
+      <div id="result"></div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laptop Price Predictor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 15px 20px;
+      text-align: center;
+    }
+    h1 {
+      margin: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    .form-select, input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #555;
+    }
+    #result {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Laptop Price Predictor</h1>
+  </header>
+  <div class="container">
+    <!-- <form id="priceForm" method="POST" action="/predict_price/">
+        {% csrf_token %}
+        <label for="company">Company:</label>
+        <input type="text" id="company" name="company"><br>
+
+        <label for="typeo">Type:</label>
+        <input type="text" id="typeo" name="typeo"><br>
+
+        <label for="ram">RAM (in GB):</label>
+        <input type="number" id="ram" name="ram"><br>
+
+        <label for="weight">Weight of the Laptop:</label>
+        <input type="number" id="weight" name="weight" step="0.01"><br>
+
+        <label for="touchscreen">Touchscreen:</label>
+        <select id="touchscreen" name="touchscreen">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select><br>
+
+        <label for="ips">IPS:</label>
+        <select id="ips" name="ips">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select><br>
+
+        <label for="screen_size">Screen Size:</label>
+        <input type="number" id="screen_size" name="screen_size" step="0.01"><br>
+
+        <label for="resolution">Resolution:</label>
+        <input type="text" id="resolution" name="resolution"><br>
+
+        <label for="cpu">CPU:</label>
+        <input type="text" id="cpu" name="cpu"><br>
+
+        <label for="gpu">GPU:</label>
+        <input type="text" id="gpu" name="gpu"><br>
+
+        <label for="os">OS:</label>
+        <input type="text" id="os" name="os"><br>
+
+      <button type="submit">Predict Price</button>
+    </form> -->
+    <form id="priceForm" method="POST" action="/predict_price/">
+      {% csrf_token %}
+      <label for="company">Brand:</label>
+        <select id="company" name="company">
+            {% for option in options_company %}
+                <option value="{{ option }}">{{ option }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="category">Category:</label> 
+        <select id="category" name="category">
+            {% for option in options_type %}
+                <option value="{{ option }}">{{ option }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="ram">RAM(in GB):</label>
+        <select id="ram" name="ram">
+            <option value="2">2</option>
+            <option value="4">4</option>
+            <option value="6">6</option>
+            <option value="8">8</option>
+            <option value="12">12</option>
+            <option value="16">16</option>
+            <option value="24">24</option>
+            <option value="32">32</option>
+            <option value="64">64</option>
+        </select>
+        <br>
+        <label for="weight">Weight of the Laptop:</label>
+        <input type="number" id="weight" name="weight" step="any" onfocus="moveCursor()">
+        <br>
+        <label for="touchscreen">Touchscreen:</label>
+        <select id="touchscreen" name="touchscreen">
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+        </select>
+        <br>
+        <label for="ips">IPS:</label>
+        <select id="ips" name="ips">
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+        </select>
+        <br>
+        <label for="screen_size">Screen Size:</label>
+        <input type="number" id="screen_size" name="screen_size" step="any" onfocus="moveCursor()">
+        <br>
+        <label for="resolution">Screen Resolution:</label>
+        <select id="resolution" name="resolution">
+            <option value="1920x1080">1920x1080</option>
+            <option value="1366x768">1366x768</option>
+            <option value="1600x900">1600x900</option>
+            <option value="3840x2160">3840x2160</option>
+            <option value="3200x1800">3200x1800</option>
+            <option value="2880x1800">2880x1800</option>
+            <option value="2560x1600">2560x1600</option>
+            <option value="2560x1440">2560x1440</option>
+            <option value="2304x1440">2304x1440</option>
+        </select>
+        <br>
+        <label for="cpu">CPU:</label>
+        <select id="cpu" name="cpu">
+            {% for option in options_cpu %}
+                <option value="{{ option }}">{{ option }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="gpu">GPU:</label>
+        <select id="gpu" name="gpu">
+            {% for option in options_gpu %}
+                <option value="{{ option }}">{{ option }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="os">OS:</label>
+        <select id="os" name="os">
+            {% for option in options_os %}
+                <option value="{{ option }}">{{ option }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <button type="submit">Predict Price</button>
+    </form>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function moveCursor() {
+        // Get the input element
+        var input = document.getElementById("weight");
+    
+        // Move the cursor to the decimal point position
+        input.setSelectionRange(input.value.length, input.value.length);
+    }
+    </script>
+
+</body>
+</html>
